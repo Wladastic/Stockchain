@@ -1,0 +1,17 @@
+{
+  "name": "stockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ODC",
+  "license": "ISC",
+  "dependencies": {
+    "@evan.network/api-blockchain-core": "^2.11.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "web3": "^1.0.0-beta.55"
+  }
+}

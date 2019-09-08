@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+		html {
+			 padding-right: 50px;
+			 padding-left: 50px;
+		}
+		div{
+			 padding-right: 10px;
+			 padding-left: 10px;
+		}
+		button, label, input{
+			padding: 5px;
+		}
+        h3{
+            display:inline;
+
+        }
+	</style>
+
+    <title>= ODC Stockchain =</title>
+  </head>
+  <body>
+
+	<div class="card">
+	  <div class="card-header">
+	    = ODC Stockchain =
+	  </div>
+	  <div class="account-body" id="accountBody">
+	    <h5 class="account-title">Please input your account Information:</h5>
+	    <form>
+	    	<table>
+			  <div class="form-group-accountId">
+			  	<tr>
+			    <td><label for="accountIdLabel">account ID: </label></td>
+			    <td><input type="accountId" class="form-control" id="accountId" placeholder="accountId"></td>
+			    </tr>
+			  </div>
+			  <div class="form-group-privateKey">
+			  	<tr>
+			    <td><label for="accountIdLabel">Private Key:</label></td>
+			    <td><input type="privateKey" class="form-control" id="privateKey" placeholder="privateKey"></td>
+				</tr>
+			  </div>
+			  <div class="form-group-password">
+			  	<tr>
+			    <td><label for="passwordLabel">Password:</label></td>
+			    <td><input type="password" class="form-control" id="password" placeholder="password"></td>
+				</tr>
+			  </div>
+			</table>
+		  <br>
+		  <input id="accountSubmit" type="button" value="Submit" class="btn btn-primary" onclick="checkAccountId();" />
+		</form>
+	  </div>
+
+	  <div class="accountId-body" id="articleBlock">
+	    <h5 class="article-title">Your article:</h5>
+	    <table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Product Name</th>
+		      <th scope="col"></th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <th scope="row">Nintendo Switch (new model)</th>
+		      <td> <input id="articleEdit" type="button" value="Edit" class="btn btn-success" onclick="showArticlePage();" /></td>
+		    </tr>
+		  </tbody>
+		</table>
+	  </div>
+
+	  <div class="stock-body" id="stockBody">
+	    <h5 class="stock-title">Nintendo Switch (new model):</h5>
+	    <h3> Existing Stock Amount: <p id="existingStockAmount"></p></h3>
+          <br>
+          <h3> Update reason of last time: <p id="lastTimeUpdateReason"></p></h3>
+          <br>
+	    <form>
+	    	<table>
+			  <div class="form-group">
+			  	<tr>
+				    <td><label for="updateStockLabel">Update to:</label></td>
+				    <td><input type="type" class="form-control" id="updateStock"></td>
+				</tr>
+			  </div>
+			  <div class="form-group">
+			  	<tr>
+				    <td><label for="reasonOfUpdate">Reason of Update:</label></td>
+				    <td><input type="type" class="form-control" id="updateReason"></td>
+				</tr>
+			  </div>
+			  <br>
+			</table>
+		</form>
+		<input id="submitStock" type="button" value="submit" class="btn btn-success" onclick="submitStock();" />
+	  </div>
+
+	</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+<script type="text/javascript">
+	var existingstock = 0;
+
+	var lastTimeUpdateReason = "";
+
+      $(document).ready(function() {
+	    document.getElementById("articleBlock").style.display = "none";
+	    document.getElementById("stockBody").style.display = "none";
+	});
+
+	function checkAccountId() {
+	  document.getElementById("accountBody").style.display = "none";
+	  document.getElementById("articleBlock").style.display = "block";
+
+	   //submit the get stock API here
+
+	   var xmlHttp = new XMLHttpRequest();
+	    xmlHttp.open( "GET",
+	    "http://localhost:3000/getCurrentState?"
+	    + "accountId=" + document.getElementById("accountId").value + "&"
+	    + "privateKey=" + document.getElementById("privateKey").value + "&"
+	    + "password=" + document.getElementById("password").value
+	    , false ); // false for synchronous request
+	    xmlHttp.send( null );
+
+	    console.log("http://localhost:3000/getCurrentState?"
+          + "accountId='" + document.getElementById("accountId").value + "'&"
+          + "privateKey='" + document.getElementById("privateKey").value + "'&"
+          + "password='" + document.getElementById("password").value + "'");
+
+	    value = xmlHttp.responseText;
+	    var myobj = JSON.parse(value);
+
+	    console.log(myobj);
+
+	    existingstock = myobj.currentQuantity;
+      lastTimeUpdateReason  = myobj.lastUpdateReason;
+
+	   // alert("localhost:3000/getCurrentState?"
+	   //  + "accountId='" + document.getElementById("accountId").value + "'&"
+	   //  + "privateKey='" + document.getElementById("privateKey").value + "'&"
+	   //  + "password='" + document.getElementById("password").value + "'");
+
+	}
+
+	function showArticlePage(){
+ 		document.getElementById("articleBlock").style.display = "none";
+ 		document.getElementById("stockBody").style.display = "block";
+
+ 		document.getElementById("existingStockAmount").innerHTML = existingstock;
+      document.getElementById("lastTimeUpdateReason").innerHTML = lastTimeUpdateReason;
+
+	}
+
+	function submitStock(){
+		var xmlHttp = new XMLHttpRequest();
+	    xmlHttp.open( "GET",
+	    "http://localhost:3000/setNewState?"
+	    + "accountId=" + document.getElementById("accountId").value + "&"
+	    + "privateKey=" + document.getElementById("privateKey").value + "&"
+	    + "password=" + document.getElementById("password").value + "&"
+		+ "quantity=" + document.getElementById("updateStock").value + "&"
+		+ "reason=" + document.getElementById("updateReason").value
+	    , false ); // false for synchronous request
+	    xmlHttp.send( null );
+	    value = xmlHttp.responseText;
+
+	 //   alert("localhost:3000/setNewState?"  //localhost:3000/setNewState?accountId=...&privateKey=...&password=....&quantity=....&reason.....
+	 //    + "accountId='" + document.getElementById("accountId").value + "'&"
+	 //    + "privateKey='" + document.getElementById("privateKey").value + "'&"
+	 //    + "password='" + document.getElementById("password").value + "'&"
+		// + "quantity='" + document.getElementById("updateStock").value + "'&"
+		// + "reason='" + document.getElementById("updateReason").value + "'"
+	 //    );
+
+      alert("submitted.");
+      document.getElementById("existingStockAmount").innerHTML = document.getElementById("updateStock").value;
+      document.getElementById("lastTimeUpdateReason").innerHTML = document.getElementById("updateReason").value;
+      document.getElementById("updateStock").value = "";
+      document.getElementById("updateReason").value = "";
+    }
+</script>
