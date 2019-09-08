@@ -1,6 +1,6 @@
 const EvantRuntime = require('./EvanRuntime');
 
-const contractAddress = '0xA636948088D1abB10cD1bc065759FCE1530757A1';
+const contractAddress = '0x6991bA71C0850aEB7503cB61eE813506f69c1996';
 
 class TransactionHelper {
   static async getContractEntry(accountId, privateKey, password, entryName) {
