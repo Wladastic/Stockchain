@@ -7,7 +7,7 @@ const warehouseAccountId = '0xdD2F6492Fada366E898d3c9Eb56f7aF308FC0B52';
 const customerAccountId = '0xFe74137330AAdB9995e6bbBb5373D84bED32f73A';
 const endCustomerAccountId = '0xb9BBD0DB5B5F318FB5FbB30683200C7585F11Da2';
 let contract;
-const contractAddress = '0xA636948088D1abB10cD1bc065759FCE1530757A1';
+const contractAddress = '0x6991bA71C0850aEB7503cB61eE813506f69c1996';
 
 async function inviteUserToContract(runtime, userAccountId) {
   runtime.dataContract.inviteToContract(
