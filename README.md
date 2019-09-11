@@ -1,3 +1,8 @@
+This is a fork of ODC-StockChain. 
+
+
+
+
 # ODC-StockChain
 
 This is a Stock Handling project for using Evan Network to manage warehouses.
